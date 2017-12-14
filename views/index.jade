@@ -1,0 +1,13 @@
+doctype html
+head
+  title= title
+  link(rel='stylesheet', href='/stylesheets/style.css')
+
+body
+  div#change !{rm120[0].description}
+  script.
+    var a = JSON.stringify(rm120[0].description)
+    var element = document.createElement("element");
+    element.innerHTML = typeof a;
+    document.body.appendChild(element)
+    
