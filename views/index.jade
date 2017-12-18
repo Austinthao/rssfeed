@@ -4,10 +4,74 @@ head
   link(rel='stylesheet', href='/stylesheets/style.css')
 
 body
-  div#change !{rm120[0].description}
-  script.
-    var a = JSON.stringify(rm120[0].description)
-    var element = document.createElement("element");
-    element.innerHTML = typeof a;
-    document.body.appendChild(element)
+  - var t = 1;
+  - var b = typeof(rm120[0].description);
+
+  div#test
+  div#change
+  
+script.
+  var i = 0;
+  let room120 = !{JSON.stringify(rm120)};
+  let room148 = !{JSON.stringify(rm148)};
+  let room108 = !{JSON.stringify(rm108)};
+  let room113 = !{JSON.stringify(rm113)};
+  
+  
+  
+  function setTen(rmNum){
     
+    test.innerHTML = '';
+    var j = 0;
+    var k = 0;
+    
+    for(j; j < 10; j++){
+    
+    test.innerHTML += rmNum[j].description;
+      
+    }
+    
+  }
+  
+  
+  setInterval(function(){
+  
+  i++;
+  
+  change.innerHTML = i;
+    
+  }, 1000);
+  
+  
+  
+  function getRooms(){
+    
+    setTimeout(function() {
+    
+    setTen(room120);
+      
+    }, 0);
+    
+    setTimeout(function() {
+    
+      setTen(room148);
+      
+    }, 5000);
+    
+    
+    setTimeout(function() {
+      
+      setTen(room113);
+      
+    }, 10000);
+    
+    setTimeout(function() {
+      
+      setTen(room108);
+    }, 15000);
+    
+  }
+  
+  getRooms();
+  
+  setInterval(getRooms, 20000);
