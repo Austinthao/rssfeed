@@ -1,10 +1,12 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  max-width: 600px;
+  max-width: 935px;
+  max-height: 515px;
+  
 }
 
-a {
-  color: #00B7FF;
+test {
+  color: red;
+  
 }
-

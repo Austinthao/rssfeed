@@ -4,11 +4,9 @@ head
   link(rel='stylesheet', href='/stylesheets/style.css')
 
 body
-  - var t = 1;
-  - var b = typeof(rm120[0].description);
 
-  div#test
-  div#change
+h1#roomTitle
+div#schedule 
   
 script.
   var i = 0;
@@ -17,30 +15,146 @@ script.
   let room108 = !{JSON.stringify(rm108)};
   let room113 = !{JSON.stringify(rm113)};
   
-  
-  
   function setTen(rmNum){
     
-    test.innerHTML = '';
+    schedule.innerHTML = '';
     var j = 0;
     var k = 0;
+    var date = new Date();
+    var curr = [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours()];
     
-    for(j; j < 10; j++){
+    var currentRoom = getRoom(rmNum);
+    roomTitle.innerHTML = currentRoom;
     
-    test.innerHTML += rmNum[j].description;
+    
+    for(j; j < 5; j++){
+      
+      k = 0;
+      
+      var temp = rmNum[j].description.split('<br>');
+      
+      var arr = convertDate(temp[1]);
+      
+      if(arr[0] >= curr[0] && arr[1] >= curr[1] && arr[2] >= curr[2] && arr[3] >= curr[3]){
+        
+        schedule.innerHTML += rmNum[j].description;
+      }
+      
+      else {
+        
+        while(arr[0] < curr[0] || arr[1] < curr[1] || arr[2] < curr[2] || arr[3] < curr[3]) {
+          
+          k++;
+          
+        }
+        
+        schedule.innerHTML += rmNum[j+k].description;
+
+      }
       
     }
     
   }
   
-  
-  setInterval(function(){
-  
-  i++;
-  
-  change.innerHTML = i;
+  function getRoom(rm) {
     
-  }, 1000);
+    var cycle = rm[0].description.split('<br>');
+    cycle = cycle[0];
+    cycle = cycle.split(',');
+    cycle = cycle[0];
+    
+    return cycle;
+    
+    
+  }
+  
+  
+  function convertDate(d) {
+    //getDate() & getMonth()
+    
+    var parse = d.split(',');
+    var year = parse[2];
+    var month = parse[1].split(' ');
+    
+    let day = month[2];
+    
+    month = month[1];
+    
+    month = changeMonth(month);
+    
+    //Thursday, December 21, 2017, 5 – 11pm 
+    parse = parse[3].split('–');
+    
+    let meridian = parse[1][parse[1].length - 3] + parse[1][parse[1].length - 2];
+    
+    var time;
+    
+    if(meridian == 'pm'){
+      time = parse[1].split('p');
+      
+      time = time[0];
+      
+      time = +time + +12;
+    }  
+    
+    
+    return [year, month, day, time];
+    
+  }
+  
+  
+  function changeMonth(month) {
+    
+    switch(month) {
+      
+      case "January":
+        return 1;
+        
+      case "February":
+        return 2;
+        
+      case "March":
+        return 3;
+        
+      case "April":
+        return 4;
+        
+      case "May":
+        return 5;
+        
+      case "June":
+        return 6;
+        
+      case "July":
+        return 7;
+        
+      case "August":
+        return 8;
+        
+      case "September":
+        return 9;
+        
+      case "October":
+        return 10;
+        
+      case "November":
+        return 11;
+        
+      case "December":
+        return 12;
+      
+    }
+  }
+
+  
+  
+  // setInterval(function(){
+  
+  // i++;
+  
+  // change.innerHTML = i;
+    
+  // }, 1000);
   
   
   
@@ -56,22 +170,22 @@ script.
     
       setTen(room148);
       
-    }, 5000);
+    }, 10000);
     
     
     setTimeout(function() {
       
       setTen(room113);
       
-    }, 10000);
+    }, 20000);
     
     setTimeout(function() {
       
       setTen(room108);
-    }, 15000);
+    }, 30000);
     
   }
   
   getRooms();
   
-  setInterval(getRooms, 20000);
+  setInterval(getRooms, 40000);
