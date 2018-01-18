@@ -1,12 +1,49 @@
 body {
-  padding: 50px;
+  
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  max-width: 935px;
-  max-height: 515px;
   
 }
 
-test {
-  color: red;
+h1 {
+  font-size: 50px;
+  font-family: "Arial";
+  text-align-last: right;
+  width: 1600px;
+  position: absolute;
+  left: 300px;
+}
+
+#schedule {
+  font: 50px "Lucida Grande", Helvetica, Arial, sans-serif;
+  width: 1600px;
+  text-align-last: left;
+  position: absolute;
+  left: 330px;
+  padding-top: 200px;
+
+}
+
+#banner {
+  
+  background: blue;
+  width: 1920px;
+  height: 1080px;
+}
+
+#first {
+  
+  background: red;
+  width: 320px;
+  height: 880px;
+  font-size: 50px;
+  
+}
+
+#second {
+  
+  background: green;
+  width: 1920px;
+  height: 200px;
+  font-size: 50px;
   
 }
