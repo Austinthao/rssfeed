@@ -1,49 +1,63 @@
 body {
   
+  left: 0px;
+  top: 0px;
+  position: absolute;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  
+  background-image: url("https://fthmb.tqn.com/AWOLPDtII-jMlK8a1gl1Lk8C0Hg=/768x0/filters:no_upscale()/csumb-CSU-Monterey-Bay-flickr-56a186fa5f9b58b7d0c065be.jpg");
+  background-repeat: no-repeat;
+  background-size: 960px 540px;
+  background-position: 8px 8px;
 }
 
 h1 {
-  font-size: 50px;
+  font-size: 25px;
   font-family: "Arial";
   text-align-last: right;
-  width: 1600px;
+  width: 800px;
   position: absolute;
-  left: 300px;
+  left: 150px;
+  color: white;
 }
 
 #schedule {
-  font: 50px "Lucida Grande", Helvetica, Arial, sans-serif;
-  width: 1600px;
+  
+  font: 15px "Lucida Grande", Helvetica, Arial, sans-serif;
+  width: 790px;
   text-align-last: left;
   position: absolute;
-  left: 330px;
-  padding-top: 200px;
-
+  left: 165px;
+  padding-top: 100px;
+  padding-left: 5px;
+  color: white;
+  border-color: white;
+  border-style: solid;
+  height: 340px;
 }
 
 #banner {
-  
-  background: blue;
-  width: 1920px;
-  height: 1080px;
+
+  width: 960px;
+  height: 540px;
+  color: white;
+
 }
 
 #first {
-  
-  background: red;
-  width: 320px;
-  height: 880px;
-  font-size: 50px;
+  width: 160px;
+  height: 440px;
+  font-size: 25px;
+  color: white;  
+  border-color: white;
+  border-style: solid;
   
 }
 
 #second {
-  
-  background: green;
-  width: 1920px;
-  height: 200px;
-  font-size: 50px;
-  
+  border-color: white;
+  border-style: solid;
+  width: 960px;
+  height: 100px;
+  font-size: 25px;
+  color: white;
 }
