@@ -8,10 +8,11 @@ body {
   background-repeat: no-repeat;
   background-size: 960px 540px;
   background-position: 8px 8px;
+  
 }
 
 h1 {
-  font-size: 25px;
+  font-size: 30px;
   font-family: "Arial";
   text-align-last: right;
   width: 800px;
@@ -22,17 +23,17 @@ h1 {
 
 #schedule {
   
-  font: 15px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
   width: 790px;
   text-align-last: left;
   position: absolute;
   left: 165px;
-  padding-top: 100px;
+  padding-top: 75px;
   padding-left: 5px;
   color: white;
   border-color: white;
   border-style: solid;
-  height: 340px;
+  height: 365px;
 }
 
 #banner {
@@ -43,13 +44,15 @@ h1 {
 
 }
 
-#first {
+#date {
   width: 160px;
   height: 440px;
   font-size: 25px;
   color: white;  
   border-color: white;
   border-style: solid;
+  text-align: center;
+  font-size: 25px;
   
 }
 
@@ -60,4 +63,17 @@ h1 {
   height: 100px;
   font-size: 25px;
   color: white;
+  padding-left: 5px;
+  padding-top: 5px;
+}
+
+#change {
+  
+  top: -10px;
+  position: absolute;
+  text-align: center;
+  
+  width: 160px;
+  
+  
 }

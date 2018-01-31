@@ -8,7 +8,8 @@ body
 h1#roomTitle
 div#schedule 
 div#banner
-  div#first Date & time here !{today}
+  div#date
+    p#change OGC
   div#second Next Event here
 
 script.
@@ -22,8 +23,7 @@ script.
   let room113 = !{JSON.stringify(rm113)};
   
   var today = new Date();
-  today = today.getDate();
-  
+
   // Contrary to its name it only sets 5 events...
   
   function setTen(rmNum){
@@ -37,69 +37,70 @@ script.
     var date = new Date();
     var curr = [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours()];
     
+    curr[3] = curr[3] + (date.getMinutes()/60);
+    curr[1]++;
     
     // Magic loop that sends the 3 most relevant events to the div container.
     
-    for(j; j < 1; j++){
+    
+    var found = false;
+    var temp;
+    var arr;
+    var k = 0;
+    
+    
+    while(!found) {
       
-      // k - Counter to ensure 5 events are pushed out.
-      
-      k = 0;
-      
-      var temp = rmNum[j].description.split('<br>');
-      
-      // arr - Get the date/time of the event.
       // the object style will be like so [year, month, date, time]
+      temp = rmNum[k].description.split('<br>');
+      arr = convertDate(temp[1]);
       
-      var arr = convertDate(temp[1]);
+      // The if statements check the year/month/date/time.
       
-      if(arr[0] >= curr[0] && arr[1] >= curr[1]+1 && arr[2] >= curr[2] && arr[3] >= curr[3]){
-      
-        //If the event has not passed yet, add it to the div container!
+      if(arr[0] >= curr[0]) {
         
-        schedule.innerHTML += rmNum[j].description;
-        //schedule.innerHTML += "*space*";
-      }
-      
-      else {
-      
-        //Else keep going til you find an event that has not passed yet. 
-        
-        while(arr[0] < curr[0] || arr[1] < curr[1] || arr[2] < curr[2] || arr[3] < curr[3]) {
+        if(arr[0] == curr[0] && arr[1] >= curr[1]) {
           
-          k++;
+          if(arr[1] == curr[1] && arr[2] >= curr[2]) {
+            
+            
+            if(arr[2] == curr[2] && arr[3] >= curr[3]) {
+              
+              if(arr[3] > curr[3]) {
+                
+                // Add the title of the event & the description.
+                
+                roomTitle.innerHTML = rmNum[k].title;
+                schedule.innerHTML += rmNum[k].description;
+                
+                // Add the next event in the series. They should be in chronological order anyways.
+                
+                second.innerHTML= 'Next Event: ';
+                second.innerHTML += rmNum[k+1].title; 
+                
+                // Add the date to the 'next event' section.
+                
+                temp = rmNum[k+1].description.split('<br>');
+                arr = convertDate(temp[1]);
+                
+                second.innerHTML += "<br>" + temp[1];
+                
+                
+                found = true;
+                break;
+              }
+              
+            }
+            
+          }
           
         }
         
-        //Print it out once you find it yo. 
-        
-        schedule.innerHTML += rmNum[j+k].description;
-
       }
       
-    }
-    
-  }
-  
-  
-  // Use this to get the room number of the rss feed that is displayed.
-  
-  
-  
-  function getRoom(rm) {
-    
-    //Expecting [object][object] variable
-    
-    
-    var cycle = rm[0].description.split('<br>');
-    cycle = cycle[0];
-    cycle = cycle.split(',');
-    cycle = cycle[0];
-    
-    //Split it at the <br> Change it to something like --> 'Student Center - Conference Room 120' then return it.
-    
-    return cycle;
-    
+      k++;
+      
+    }    
     
   }
   
@@ -134,17 +135,63 @@ script.
     
     let meridian = parse[1][parse[1].length - 3] + parse[1][parse[1].length - 2];
     
-    var time;
+    var temp_time;
+    var time = 0;
+    var temp_num;
     
     //add 12 if pm because a 24 hour clock is easier to compare to.
     
+    
     if(meridian == 'pm'){
-      time = parse[1].split('p');
+      temp_time = parse[1].split('p');
       
-      time = time[0];
       
-      time = +time + +12;
-    }  
+      if(temp_time[0][2] == ':') {
+        
+        
+        time = Number(temp_time[0][1]) + 12;
+        
+        // Add the remaining time to the number for pin point accuracy. Over 60 cuz 60 seconds in a minute.
+        
+        temp_num = (Number(temp_time[0][3] + temp_time[0][4])/60);
+        
+        
+        time = time + temp_num;
+        
+        
+      }
+      
+      // Same deal but, checks for 10s/11s/12s.
+      
+      else if(temp_time[0][3] == ':') {
+        
+        time = Number(temp_time[0][1] + temp_time[0][2]) + 12;
+        
+        
+        temp_num = (Number(temp_time[0][4] + temp_time[0][5])/60);
+        
+        //alert(temp_time[0][3] + temp_time[0][4] + "====" + d);
+        
+        time = time + temp_num;        
+        
+      }
+      
+      // If its a number on the dot, just add 12.
+      
+      else {
+        
+        time = Number(temp_time[0]) + 12;
+      }
+      
+      
+    } 
+    // This is where you left off.
+    
+    else {
+      
+      time = Number(parse[1]);
+    }
+    
     
     // Return the data of the event in an array format.
     
@@ -197,7 +244,182 @@ script.
       
     }
   }
+  
+  
+  // Change month from numerical to string.
+  
+  function changeMonth_REVERSE(month) {
+    
+    switch(month) {
+      
+      case 0:
+        return "January";
+        
+      case 1:
+        return "February";
+        
+      case 2:
+        return "March";
+        
+      case 3:
+        return "April";
+        
+      case 4:
+        return "May";
+        
+      case 5:
+        return "June";
+        
+      case 6:
+        return "July";
+        
+      case 7:
+        return "August";
+        
+      case 8:
+        return "September";
+        
+      case 9:
+        return "October";
+        
+      case 10:
+        return "November";
+        
+      case 11:
+        return "December";
+      
+    }
+  }  
+  
+  //Change day from numerical to string.
+  
+  function changeDay(day) {
+    
+    
+    switch(day) {
+      
+      case 0:
+        return "Sunday";
+        
+      case 1:
+        return "Monday";
+        
+      case 2:
+        return "Tuesday";
+        
+      case 3:
+        return "Wednessday";
+        
+      case 4:
+        return "Thursday";
+        
+      case 5:
+        return "Friday";
+        
+      case 6:
+        return "Saturday";
+      
+    }    
 
+    
+  }
+  
+  
+  // Time/date keeper.
+  
+  setInterval(function(){
+    
+    // Change the date every second to accurately update clock.
+    
+    today = new Date();
+    
+    var day = today.getDay();
+    
+    day = changeDay(day);
+    
+    var mon = today.getMonth();
+    
+    mon = changeMonth_REVERSE(mon);
+    
+    // Time reads as follows [Hours:Minutes:Meridian]
+    
+    var time = [0,0,""];
+    
+    time[0] = today.getHours();
+    
+    // Hours based on 24 hour clock. Change it to AM/PM.
+    
+    if(time[0] > 12) {
+      
+      time[0] = time[0] - 12;
+      
+      time[2] = "PM";
+    }
+    
+    else {
+      
+      time[2] = "AM";
+    }
+    
+    change.innerHTML = time[0] + ":";
+    time[1] = today.getMinutes();
+    
+    // Need to add a 0 in front of the minutes if it is single digit. PURELY AETHSTETICS.
+    
+    if(time[1] < 10){
+      
+      change.innerHTML += "0" + time[1];
+      
+    }
+    
+    // else just don't, you don't need it. time[1] is a strong independent woman and doesn't need no 0.
+    else {
+      change.innerHTML += time[1];
+    }
+    
+    
+    // Add everything to the div container for the time.
+    
+    change.innerHTML += time[2];
+    
+    change.innerHTML += " " + day;
+    
+    change.innerHTML += " " + mon;
+    
+    var test = today.getDate();
+    
+    // Change test to toString to easily add number ending.
+    
+    test = test.toString();
+    
+    change.innerHTML += " " + test;
+    
+    
+    // Add the endings for the date... also aethstics.
+    
+    if(test[1] === '1'){
+      
+      change.innerHTML += "st";
+    }
+    
+    else if (test[1] === '2'){
+      
+      change.innerHTML += "nd";
+    }
+    
+    else if (test[1] === '3'){
+      
+      change.innerHTML += "rd";
+    }  
+    
+    else {
+      
+      change.innerHTML += "th";
+    }  
+    
+    
+    
+  }, 1000);
   
   
   // setInterval(function(){
@@ -208,6 +430,7 @@ script.
     
   // }, 1000);
   
+
   
   //Set the div container to the rss feed of each room alternating every 10 seconds.
   
@@ -215,14 +438,14 @@ script.
     
     setTimeout(function() {
     
-      roomTitle.innerHTML = 'Student Center Room 120';
+      //roomTitle.innerHTML = 'Student Center Room 120';
       setTen(room120);
       
     }, 0);
     
     setTimeout(function() {
     
-      roomTitle.innerHTML = 'Student Center Room 148';
+      //roomTitle.innerHTML = 'Student Center Room 148';
       setTen(room148);
       
     }, 10000);
@@ -230,7 +453,7 @@ script.
     
     setTimeout(function() {
       
-      roomTitle.innerHTML = 'Student Center Room 113';
+      //roomTitle.innerHTML = 'Student Center Room 113';
       
       
       setTen(room113);
@@ -239,7 +462,7 @@ script.
     
     setTimeout(function() {
       
-      roomTitle.innerHTML = 'Student Center Room 108';
+      //roomTitle.innerHTML = 'Student Center Room 108';
       
       setTen(room108);
     }, 30000);
